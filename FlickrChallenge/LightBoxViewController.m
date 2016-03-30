@@ -25,7 +25,6 @@
 
 - (IBAction)openFlickrAppForImageBtnAction:(id)sender;
 - (IBAction)downloadImgBtnAction:(id)sender;
-- (IBAction)backViewController:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UILabel *lblDescOwner;
 
@@ -37,13 +36,16 @@
 #pragma mark -  View Lifecycle
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.imgDetailDataModel = [[PhotoDetails alloc]init];
     self.lightBoxDataCenter = [[LightBoxDataCenter alloc]init];
     self.lightBoxDataCenter.delegate = self;
     
     countActivity = 0;
 }
+
 -(void)viewDidAppear:(BOOL)animated {
+        // if photo present get Original Photo and PhotoDetails
     if (_photo) {
         __block UIImage *image;
         [self setActivityIndicatorForView:YES];
@@ -70,24 +72,25 @@
 
 
 -(void)swiperight:(UISwipeGestureRecognizer*)gestureRecognizer {
-    //Do what you want here
     [self.navigationController popViewControllerAnimated:YES];
-    
 }
 
 #pragma mark -
 
+    // Did get data for PhotoDetails
 -(void)didReceiveDataForImageDetailsView:(PhotoDetails*)imageDetailModel {
     self.imgDetailDataModel = imageDetailModel;
     [self updateDataForView];
 }
 
+    // did get error message for getting imgDetailDataModel
 -(void)didGetError:(NSError*)error {
     [self showMessage:@"Oops. Something went wrong!! Please try again!!" withTitle:@"Error"];
 }
 
 
 #pragma mark - Light Box View helper
+    // Update Description, owner and title for PhotoDetails.
 -(void)updateDataForView {
     self.lblDescOwner.text = [NSString stringWithFormat:@"%@ by %@", self.imgDetailDataModel.strDescription, self.imgDetailDataModel.strOwner];
     self.lblTitle.text = [NSString stringWithFormat:@"%@", self.imgDetailDataModel.strTitle];
@@ -95,10 +98,8 @@
 
 
 #pragma mark - IBAction Methods
-- (IBAction)backViewController:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
-}
 
+    // Open flickr app with URLScheme for opened Image
 - (IBAction)openFlickrAppForImageBtnAction:(id)sender {
     if (self.imgDetailDataModel) {
         if ([[UIApplication sharedApplication]canOpenURL: self.imgDetailDataModel.urlFlickr]) {
@@ -109,21 +110,30 @@
     }
 }
 
+    // Download UIImage Action
 - (IBAction)downloadImgBtnAction:(id)sender {
+    [self setActivityIndicatorForView:YES];
     if (_photo.imgLightBoxImage != NULL) {
-        UIImageWriteToSavedPhotosAlbum(_photo.imgLightBoxImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+        dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul), ^{
+            UIImageWriteToSavedPhotosAlbum(_photo.imgLightBoxImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+        });
+        
     }
 }
 
 
 #pragma mark - Callback for camera save data
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
-    // Unable to save the image
-    if (error) {
-        [self showMessage:@"Unable to save image to Photo Album." withTitle:@"Error"];
-    }else {// All is well
-        [self showMessage:@"Image saved!!" withTitle:@"Success"];
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self setActivityIndicatorForView:NO];
+        
+        if (error) { // Unable to save the image
+            [self showMessage:@"Unable to save image to Photo Album." withTitle:@"Error"];
+        }else { // All is well
+            [self showMessage:@"Image saved!!" withTitle:@"Success"];
+        }
+    });
+    
 }
 
 @end

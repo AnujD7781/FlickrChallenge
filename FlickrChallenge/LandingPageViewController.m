@@ -21,7 +21,7 @@
 #pragma mark - BaseView Controller LifeCycle methods
 -(void)swipeleft:(UISwipeGestureRecognizer*)gestureRecognizer
 {
-    //Do what you want here
+    //Navigate to FeedMasterViewController Segue
     [self performSegueWithIdentifier:@"CollectionViewSegue" sender:nil];
 
 }

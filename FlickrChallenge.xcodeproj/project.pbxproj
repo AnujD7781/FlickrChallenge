@@ -105,7 +105,6 @@
 				D4BFC4571CA3188B00757366 /* Model */,
 				D4F391881CA9CABF009CD298 /* Factory */,
 				D4BFC45B1CA318B300757366 /* ApplicationDelegate */,
-				D4BFC45A1CA318A900757366 /* Services */,
 				D4BFC4591CA3189700757366 /* Categories */,
 				D4BFC4561CA3188400757366 /* Controllers */,
 				D4BFC4311CA3187C00757366 /* Supporting Files */,
@@ -143,6 +142,8 @@
 				D4E59B721CA4FBCF00A4B093 /* Photo.m */,
 				D4B427D01CA5E3C400E81C67 /* PhotoDetails.h */,
 				D4B427D11CA5E3C400E81C67 /* PhotoDetails.m */,
+				D4E59B6D1CA4FBCF00A4B093 /* DataModeler.h */,
+				D4E59B6E1CA4FBCF00A4B093 /* DataModeler.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -163,17 +164,6 @@
 			children = (
 			);
 			name = Categories;
-			sourceTree = "<group>";
-		};
-		D4BFC45A1CA318A900757366 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				D4E59B731CA4FBCF00A4B093 /* CollectionViewCell.h */,
-				D4E59B741CA4FBCF00A4B093 /* CollectionViewCell.m */,
-				D4E59B6D1CA4FBCF00A4B093 /* DataModeler.h */,
-				D4E59B6E1CA4FBCF00A4B093 /* DataModeler.m */,
-			);
-			name = Services;
 			sourceTree = "<group>";
 		};
 		D4BFC45B1CA318B300757366 /* ApplicationDelegate */ = {
@@ -201,12 +191,22 @@
 		D4CF6A401CAB133C00207890 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D4ECD0A21CAC340B009CADF2 /* CollectionViewCells */,
 				D4F391871CA9CA7A009CD298 /* CustomViews */,
 				D4BFC4581CA3188F00757366 /* BaseViews */,
 				D4BFC43A1CA3187C00757366 /* Main.storyboard */,
 				D4BFC43F1CA3187C00757366 /* LaunchScreen.storyboard */,
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		D4ECD0A21CAC340B009CADF2 /* CollectionViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				D4E59B731CA4FBCF00A4B093 /* CollectionViewCell.h */,
+				D4E59B741CA4FBCF00A4B093 /* CollectionViewCell.m */,
+			);
+			name = CollectionViewCells;
 			sourceTree = "<group>";
 		};
 		D4F391871CA9CA7A009CD298 /* CustomViews */ = {
@@ -427,7 +427,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = FlickrChallenge/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "anuj-deshmukh.FlickrChallenge";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -439,7 +439,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = FlickrChallenge/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "anuj-deshmukh.FlickrChallenge";
 				PRODUCT_NAME = "$(TARGET_NAME)";

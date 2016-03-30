@@ -40,6 +40,14 @@
         //swipeleft = nil;
 }
 
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+        // To hide network activity on disappear
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+}
+
 #pragma mark - Custom Left Right swipe recognizer
 -(void)swipeleft:(UISwipeGestureRecognizer*)gestureRecognizer {
     //Do what you want here
@@ -59,8 +67,7 @@
                                   preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
-        
-        //do something when click button
+            // future add click button block handler
     }];
     [alert addAction:okAction];
     UIViewController *vc = [[[[UIApplication sharedApplication] delegate] window] rootViewController];

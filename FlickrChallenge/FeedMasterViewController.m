@@ -14,6 +14,7 @@
 
 @interface FeedMasterViewController ()
 
+    // IBOutlet and Properties
 @property (strong, nonatomic) CollectionViewDataCenter *collectionViewDataCenter;
 @property (weak, nonatomic) IBOutlet UIView *refreshView;
 @property (weak, nonatomic) IBOutlet BaseCollectionView *collectionView;
@@ -23,14 +24,20 @@
 
 #pragma mark - View lifecycle methods
 -(void)viewDidLoad {
+    
+        // Allocate data for data center
     self.collectionViewDataCenter = [[CollectionViewDataCenter alloc]init];
+        // set Delegate to self
     self.collectionViewDataCenter.delegate = self;
+    self.collectionView.baseCollectionViewDelegate  =self;
+
+        // Get data for Tags =  Shark
     [self.collectionViewDataCenter getDataForCollectionViewForTags:@"shark"];
     [self setActivityIndicatorForView:YES];
-    self.collectionView.baseCollectionViewDelegate  =self;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+        // pass Photo object to Deatil View Controller  - Light Box view controller
     if ([[segue identifier] isEqualToString:@"LightBoxSegue"] ) {
         LightBoxViewController *detailVC = (LightBoxViewController*)[segue destinationViewController];
         detailVC.photo = [self.collectionViewDataCenter getPhotoDataForIndexPath:self.collectionView.indexPathsForSelectedItems[0]];
@@ -40,12 +47,14 @@
 #pragma mark - CollectionViewDataCenter Delegate Methods
 
 -(void)didGetDataForCollectionView {
+        // Did get data for collectionView
     [self.collectionView reloadData];
     [self.collectionView.refreshControl endRefreshing];
     [self setActivityIndicatorForView:NO];
 }
 
 -(void)didGetError {
+        // Did get error while getting/parsing data from collectionView
     [self showMessage:@"Opps. Something went wrong!! Please try again!!" withTitle:@"Error"];
     [self setActivityIndicatorForView:NO];
 }
@@ -55,6 +64,7 @@
 
 #pragma mark - UICollectionViewDelegate
 -(void)didRefreshCollectionView {
+        // refresh collection view data
     [self.collectionViewDataCenter refreshDataForCollectionView];
 }
 
@@ -70,6 +80,7 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
+        // CollevtionView Cell
     CollectionViewCell *cellCollectionView = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
     __block Photo  *photo = [self.collectionViewDataCenter getPhotoDataForIndexPath:indexPath] ;
     [cellCollectionView.activityIndicator startAnimating];
@@ -82,7 +93,7 @@
             UIImage *image = photo.imgThumbnailImage;
             photo = nil;
             dispatch_async(dispatch_get_main_queue(), ^{
-                // then set them via the main queue if the cell is still visible.
+                // then set Photo thumbnail image via the main queue if the cell is still visible.
                 
                 if ([weakSelf.collectionView.indexPathsForVisibleItems containsObject:indexPath]) {
                     CollectionViewCell *cell =
@@ -105,8 +116,8 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 
 #pragma mark - Scroll View
 
--(void)scrollViewDidScroll: (UIScrollView*)scrollView
-{
+-(void)scrollViewDidScroll: (UIScrollView*)scrollView {
+        // add next page 
     float scrollViewHeight = scrollView.frame.size.height;
     float scrollContentSizeHeight = scrollView.contentSize.height;
     float scrollOffset = scrollView.contentOffset.y;
