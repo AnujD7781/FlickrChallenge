@@ -9,7 +9,6 @@
 
 @implementation CollectionViewCell
 
-
 #pragma mark - Lifecycle
 
 - (id)initWithFrame:(CGRect)frame
